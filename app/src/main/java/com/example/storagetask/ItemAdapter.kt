@@ -17,7 +17,6 @@ class ItemAdapter(val items: List<Item>): RecyclerView.Adapter<ItemAdapter.ItemV
 
         fun bind(item: Item){
             binding.listItem = item
-            Log.d("AAA", item.name)
         }
 
         override fun onLongClick(p0: View?): Boolean {
@@ -55,7 +54,7 @@ class ItemAdapter(val items: List<Item>): RecyclerView.Adapter<ItemAdapter.ItemV
     fun setOnItemClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
     }
-    public fun getItem(position: Int): Item {
+    fun getItem(position: Int): Item {
         return items[position]
     }
 

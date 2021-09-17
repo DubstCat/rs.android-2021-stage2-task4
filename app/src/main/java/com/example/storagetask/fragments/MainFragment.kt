@@ -1,6 +1,7 @@
 package com.example.storagetask.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ class MainFragment : Fragment() {
     private lateinit var binding:FragmentMainBinding
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var mItemViewModel: ItemViewModel
+    private lateinit var mAdapter: ItemAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,73 +55,75 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshList()
+        Log.d("SORT", "list refreshed")
+    }
+
     private fun refreshList(){
         val recyclerView = binding.rvItems
         recyclerView.layoutManager = manager
         mItemViewModel = ViewModelProvider(this).get(ItemViewModel::class.java)
         mItemViewModel.readAllData.observe(viewLifecycleOwner, Observer {
                 items -> run{
-            val adapter = ItemAdapter(items)
-
-            adapter.setOnItemClickListener(object: ItemAdapter.ClickListener {
+            mAdapter = ItemAdapter(items)
+            mAdapter.setOnItemClickListener(object: ItemAdapter.ClickListener {
                 override fun onItemClick(position: Int, v: View?) {
-
-                    val linearLayout = LinearLayout(context)
-                    linearLayout.orientation = LinearLayout.HORIZONTAL
-                    val inputNameEditTextField = EditText(context)
-                    val inputAgeEditTextField = EditText(context)
-                    val inputBreedEditTextField = EditText(context)
-
-                    inputNameEditTextField.hint = "Name"
-                    inputAgeEditTextField.hint = "Age"
-                    inputBreedEditTextField.hint = "Breed"
-
-                    linearLayout.apply {
-                        orientation = LinearLayout.VERTICAL
-                        addView(inputNameEditTextField)
-                        addView(inputAgeEditTextField)
-                        addView(inputBreedEditTextField)
-                    }
-
-                    val dialog = AlertDialog.Builder(context!!).apply {
-                        setTitle("Edit item")
-                        setMessage("Enter new information for an item")
-                        setNegativeButton("Cancel",null)
-                        setView(linearLayout)
-                        setPositiveButton("Input") { _, _ ->
-                            val editNameTextInput: String = inputNameEditTextField.text.toString()
-                            val editAgeTextInput: String = inputAgeEditTextField.text.toString()
-                            val editBreedTextInput: String = inputBreedEditTextField.text.toString()
-                            if(editNameTextInput.isNotEmpty() && editAgeTextInput.isNotEmpty() &&editBreedTextInput.isNotEmpty()) {
-                                mItemViewModel.update(
-                                    name = editNameTextInput,
-                                    age = editAgeTextInput,
-                                    breed = editBreedTextInput,
-                                    item_id = adapter.getItem(position).id
-                                )
-                            }else{
-                                Toast.makeText(context, "Wrong input", Toast.LENGTH_SHORT).show()
-                            }
-
-                        }
-                        create()
-                    }
-                    dialog.show()
+                    showUpdateDialog(position)
                 }
-
                 override fun onItemLongClick(position: Int, v: View?) {
                     Toast.makeText(context, "Deleted item with index $position", Toast.LENGTH_SHORT).show()
-                    mItemViewModel.delete(adapter.getItem(position))
+                    mItemViewModel.delete(mAdapter.getItem(position))
                 }
 
             })
-            recyclerView.adapter = adapter
+            recyclerView.adapter = mAdapter
         }
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshList()
+    fun showUpdateDialog(position:Int){
+        val linearLayout = LinearLayout(context)
+        linearLayout.orientation = LinearLayout.HORIZONTAL
+        val inputNameEditTextField = EditText(context)
+        val inputAgeEditTextField = EditText(context)
+        val inputBreedEditTextField = EditText(context)
+
+        inputNameEditTextField.hint = "Name"
+        inputAgeEditTextField.hint = "Age"
+        inputBreedEditTextField.hint = "Breed"
+
+        linearLayout.apply {
+            orientation = LinearLayout.VERTICAL
+            addView(inputNameEditTextField)
+            addView(inputAgeEditTextField)
+            addView(inputBreedEditTextField)
+        }
+
+        val dialog = AlertDialog.Builder(requireContext()).apply {
+            setTitle("Edit item")
+            setMessage("Enter new information for an item")
+            setNegativeButton("Cancel",null)
+            setView(linearLayout)
+            setPositiveButton("Input") { _, _ ->
+                val editNameTextInput: String = inputNameEditTextField.text.toString()
+                val editAgeTextInput: String = inputAgeEditTextField.text.toString()
+                val editBreedTextInput: String = inputBreedEditTextField.text.toString()
+                if(editNameTextInput.isNotEmpty() && editAgeTextInput.isNotEmpty() &&editBreedTextInput.isNotEmpty()) {
+                    mItemViewModel.update(
+                        name = editNameTextInput,
+                        age = editAgeTextInput,
+                        breed = editBreedTextInput,
+                        item_id = mAdapter.getItem(position).id
+                    )
+                }else{
+                    Toast.makeText(context, "Wrong input", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+            create()
+        }
+        dialog.show()
     }
 }

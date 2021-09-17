@@ -1,6 +1,7 @@
 package com.example.storagetask.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.example.storagetask.R
@@ -19,8 +20,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     fun loadSettings(){
         val sp = PreferenceManager.getDefaultSharedPreferences(context)
-
         Sort.sorting_mode = sp.getString("filter", "")
+        Log.d("SORT", Sort.sorting_mode!!)
     }
     
 }
