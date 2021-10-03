@@ -5,8 +5,8 @@ import com.example.storagetask.data.Item
 import com.example.storagetask.data.Sort
 
 class ItemRepository(private val itemDao: ItemDao) {
-
-    val readAllData: LiveData<List<Item>> = itemDao.readAllData(Sort.sorting_mode!!)
+    private val default_sorting_mode = "age"
+    val readAllData: LiveData<List<Item>> = itemDao.readAllData(Sort.sorting_mode?:default_sorting_mode)
 
     suspend fun addItem(item: Item){
         itemDao.addItem(item)
