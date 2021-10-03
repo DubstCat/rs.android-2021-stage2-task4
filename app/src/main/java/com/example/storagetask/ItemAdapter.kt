@@ -21,14 +21,14 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
             binding.listItem = item
         }
 
-        override fun onLongClick(p0: View?): Boolean {
+        override fun onLongClick(view: View?): Boolean {
 
-            clickListener.onItemLongClick(bindingAdapterPosition, p0);
+            clickListener.onItemLongClick(bindingAdapterPosition, view);
             return false
         }
 
-        override fun onClick(p0: View?) {
-            clickListener.onItemClick(bindingAdapterPosition, p0)
+        override fun onClick(view: View?) {
+            clickListener.onItemClick(bindingAdapterPosition, view)
         }
     }
 
