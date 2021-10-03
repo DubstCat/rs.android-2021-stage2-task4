@@ -16,16 +16,18 @@ abstract class ItemDatabase: RoomDatabase() {
 
         fun getDatabase(context: Context): ItemDatabase {
             val tempInstance = INSTANCE
-            if (tempInstance != null)
+            if (tempInstance != null){
                 return tempInstance
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ItemDatabase::class.java,
-                    "item_database"
-                ).build()
-                INSTANCE = instance
-                return instance
+            }else{
+                synchronized(this) {
+                    val instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        ItemDatabase::class.java,
+                        "item_database"
+                    ).build()
+                    INSTANCE = instance
+                    return instance
+                }
             }
         }
     }

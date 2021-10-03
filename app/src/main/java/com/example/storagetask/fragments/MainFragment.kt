@@ -1,5 +1,6 @@
 package com.example.storagetask.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +22,7 @@ import com.example.storagetask.R
 import com.example.storagetask.databinding.FragmentMainBinding
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var binding:FragmentMainBinding
     private lateinit var manager: RecyclerView.LayoutManager
@@ -53,12 +54,6 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        refreshList()
-        Log.d("SORT", "list refreshed")
     }
 
     override fun onDestroyView() {
@@ -130,5 +125,9 @@ class MainFragment : Fragment() {
             create()
         }
         dialog.show()
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        refreshList()
     }
 }
