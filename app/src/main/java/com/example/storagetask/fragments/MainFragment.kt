@@ -38,6 +38,7 @@ class MainFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListe
             setOnClickListener {
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.activity_main_fragment, AddItemFragment())
+                    .addToBackStack(null)
                     .commit()
             }
             setOnLongClickListener{

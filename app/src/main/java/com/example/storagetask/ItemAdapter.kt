@@ -29,7 +29,6 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
         }
 
         override fun onLongClick(view: View?): Boolean {
-
             clickListener.onItemLongClick(bindingAdapterPosition, view);
             return false
         }
@@ -47,18 +46,15 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(items[position], holder.itemView)
-
-
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
+
+
+    fun getItemFromList(position: Int): Item = items[position]
+
     fun setOnItemClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
-    }
-    fun getItemFromList(position: Int): Item {
-        return items[position]
     }
 
     interface ClickListener {

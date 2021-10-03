@@ -20,6 +20,7 @@ private lateinit var binding:ActivityMainBinding
 
         supportFragmentManager.beginTransaction()
             .add(R.id.activity_main_fragment, MainFragment::class.java, null)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -37,11 +38,5 @@ private lateinit var binding:ActivityMainBinding
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.activity_main_fragment, MainFragment::class.java, null)
-            .commit()
     }
 }
