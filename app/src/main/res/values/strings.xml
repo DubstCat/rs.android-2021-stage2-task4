@@ -16,4 +16,8 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="app_preferences">app_preferences</string>
+    <string name="name_hint">Name</string>
+    <string name="age_hint">Age</string>
+    <string name="breed_hint">Breed</string>
+    <string name="btn_add">Add</string>
 </resources>

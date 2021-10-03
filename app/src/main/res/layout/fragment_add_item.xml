@@ -22,21 +22,21 @@
 
             <EditText
                 android:id="@+id/et_name"
-                android:hint="Name"
+                android:hint="@string/name_hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp" />
 
             <EditText
                 android:id="@+id/et_age"
-                android:hint="Age"
+                android:hint="@string/age_hint"
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/et_breed"
-                android:hint="Breed"
+                android:hint="@string/breed_hint"
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -45,7 +45,7 @@
                 android:id="@+id/btn_add_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add" />
+                android:text="@string/btn_add" />
         </LinearLayout>
     </FrameLayout>
 </layout>
