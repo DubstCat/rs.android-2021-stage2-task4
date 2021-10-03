@@ -12,9 +12,9 @@ import com.example.storagetask.databinding.ItemLayoutBinding
 
 
 class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffCallback()) {
-    private var clickListener: ClickListener? = null
+    lateinit var clickListener: ClickListener
 
-    inner class ItemViewHolder(val binding: ItemLayoutBinding)  : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener, View.OnClickListener{
+    class ItemViewHolder(val binding: ItemLayoutBinding, val clickListener: ClickListener)  : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener, View.OnClickListener{
 
 
         fun bind(item: Item){
@@ -22,12 +22,13 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            clickListener!!.onItemLongClick(bindingAdapterPosition, p0);
+
+            clickListener.onItemLongClick(bindingAdapterPosition, p0);
             return false
         }
 
         override fun onClick(p0: View?) {
-            clickListener!!.onItemClick(bindingAdapterPosition, p0)
+            clickListener.onItemClick(bindingAdapterPosition, p0)
         }
     }
 
@@ -35,7 +36,7 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
         val inflater = LayoutInflater.from(parent.context)
 
         val listItemBinding = ItemLayoutBinding.inflate(inflater, parent, false)
-        return ItemViewHolder(listItemBinding)
+        return ItemViewHolder(listItemBinding,clickListener)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
