@@ -4,12 +4,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storagetask.data.Item
+import com.example.storagetask.data.ItemDiffCallback
 import com.example.storagetask.databinding.ItemLayoutBinding
 
 
-class ItemAdapter(val items: List<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffCallback()) {
     private var clickListener: ClickListener? = null
 
     inner class ItemViewHolder(val binding: ItemLayoutBinding)  : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener, View.OnClickListener{
@@ -54,7 +56,7 @@ class ItemAdapter(val items: List<Item>): RecyclerView.Adapter<ItemAdapter.ItemV
     fun setOnItemClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
     }
-    fun getItem(position: Int): Item {
+    override fun getItem(position: Int): Item {
         return items[position]
     }
 
