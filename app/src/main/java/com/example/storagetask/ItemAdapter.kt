@@ -17,8 +17,15 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
     class ItemViewHolder(val binding: ItemLayoutBinding, val clickListener: ClickListener)  : RecyclerView.ViewHolder(binding.root), View.OnLongClickListener, View.OnClickListener{
 
 
-        fun bind(item: Item){
+        fun bind(item: Item, itemView:View){
             binding.listItem = item
+            itemView.setOnClickListener(View.OnClickListener {
+                onClick(itemView)
+            })
+            itemView.setOnLongClickListener {
+                onLongClick(itemView)
+                return@setOnLongClickListener false
+            }
         }
 
         override fun onLongClick(view: View?): Boolean {
@@ -34,20 +41,13 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-
         val listItemBinding = ItemLayoutBinding.inflate(inflater, parent, false)
         return ItemViewHolder(listItemBinding,clickListener)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(items[position])
-        holder.itemView.setOnClickListener(View.OnClickListener {
-            holder.onClick(holder.itemView)
-        })
-        holder.itemView.setOnLongClickListener {
-            holder.onLongClick(holder.itemView)
-            return@setOnLongClickListener false
-        }
+        holder.bind(items[position], holder.itemView)
+
 
     }
 
