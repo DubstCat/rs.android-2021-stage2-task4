@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.storagetask.data.Item
@@ -49,6 +50,8 @@ class AddItemFragment : Fragment(), Validate {
                 binding.etBreed.text.toString(),
             )
             mItemViewModel.addItem(item)
+        }else{
+            Toast.makeText(context, "Please enter valid data", Toast.LENGTH_SHORT).show()
         }
     }
 
