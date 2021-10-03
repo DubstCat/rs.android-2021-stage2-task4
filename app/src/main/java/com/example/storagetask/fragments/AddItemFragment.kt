@@ -36,10 +36,13 @@ class AddItemFragment : Fragment(), Validate {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.activity_main_fragment, MainFragment())
                 .commit()
-
         }
-
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
     }
     private fun insertDataToDatabase(){
         if(validate(binding.etName.text.toString(),binding.etAge.text.toString(),binding.etBreed.text.toString())) {

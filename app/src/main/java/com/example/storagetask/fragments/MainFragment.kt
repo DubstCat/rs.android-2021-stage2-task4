@@ -61,6 +61,11 @@ class MainFragment : Fragment() {
         Log.d("SORT", "list refreshed")
     }
 
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
+    }
+
     private fun refreshList(){
         val recyclerView = binding.rvItems
         recyclerView.layoutManager = manager
@@ -74,7 +79,7 @@ class MainFragment : Fragment() {
                 }
                 override fun onItemLongClick(position: Int, v: View?) {
                     Toast.makeText(context, "Deleted item with index $position", Toast.LENGTH_SHORT).show()
-                    mItemViewModel.delete(mAdapter.getItem(position))
+                    mItemViewModel.delete(mAdapter.getItemFromList(position))
                 }
 
             })
@@ -115,7 +120,7 @@ class MainFragment : Fragment() {
                         name = editNameTextInput,
                         age = editAgeTextInput,
                         breed = editBreedTextInput,
-                        item_id = mAdapter.getItem(position).id
+                        item_id = mAdapter.getItemFromList(position).id
                     )
                 }else{
                     Toast.makeText(context, "Wrong input", Toast.LENGTH_SHORT).show()

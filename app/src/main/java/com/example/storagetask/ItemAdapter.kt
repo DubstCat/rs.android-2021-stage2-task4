@@ -56,7 +56,7 @@ class ItemAdapter(val items: List<Item>): ListAdapter<Item, ItemAdapter.ItemView
     fun setOnItemClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
     }
-    override fun getItem(position: Int): Item {
+    fun getItemFromList(position: Int): Item {
         return items[position]
     }
 
