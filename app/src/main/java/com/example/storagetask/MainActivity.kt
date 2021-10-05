@@ -34,6 +34,7 @@ private lateinit var binding:ActivityMainBinding
             R.id.menu_item -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.activity_main_fragment, SettingsFragment::class.java, null)
+                    .addToBackStack(null)
                     .commit()
             }
         }
